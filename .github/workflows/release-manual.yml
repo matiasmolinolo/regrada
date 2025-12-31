@@ -50,8 +50,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload to S3
@@ -62,4 +61,5 @@ jobs:
           aws s3 cp "dist/$VERSION/$out" "s3://$S3_BUCKET/$S3_PREFIX/$VERSION/$out"
           if [ "${{ inputs.upload_latest }}" = "true" ] && [ "${{ matrix.goos }}" = "linux" ] && [ "${{ matrix.goarch }}" = "amd64" ]; then
             aws s3 cp dist/latest.txt "s3://$S3_BUCKET/$S3_PREFIX/latest.txt"
+            aws s3 cp install.sh "s3://$S3_BUCKET/install.sh"
           fi
