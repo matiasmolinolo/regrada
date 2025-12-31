@@ -1,0 +1,9 @@
+project: .
+env: local
+provider:
+    type: openai
+    base_url: https://api.openai.com/v1
+capture:
+    requests: true
+    responses: true
+    traces: true
